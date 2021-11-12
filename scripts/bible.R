@@ -83,8 +83,8 @@ heaven_corpus_tb <-  heaven_corpus %>%
 ggplot(data = heaven_corpus_tb,
        aes(label = word, size = freq, col = as.character(freq))) +
   geom_text_wordcloud(rm_outside = TRUE, max_steps = 1,
-                      grid_size = 1, eccentricity = .9) +
-  scale_size_area(max_size = 15) +
+      grid_size = 1, eccentricity = .9, shape = "triangle-upright") +
+  scale_size_area(max_size = 12) +
   scale_color_brewer(palette = "Paired", direction = -1) +
  theme_void()
 ggsave(file = "original_word_cloud.png", width = 15, height = 6)
@@ -96,44 +96,44 @@ heaven_corpus_tb <-  heaven_corpus_tb %>%
 ggplot(data = heaven_corpus_tb,
        aes(label = word, size = freq, angle = angle, col = as.character(freq))) + # nolint
   geom_text_wordcloud(rm_outside = TRUE, max_steps = 1,
-                      grid_size = 1, eccentricity = .9) +
-  scale_size_area(max_size = 15) +
+        grid_size = 1, eccentricity = .9, shape = "triangle-upright") +
+  scale_size_area(max_size = 12) +
   scale_color_brewer(palette = "Paired", direction = -1) +
   theme_void()
   ggsave(file = "word_cloud.png", width = 15, height = 6)
 
 # the example- Credit: Shelby Taylor- 4030 class
 
-library(tidyverse)
-library(janeaustenr)
-library(tidytext)
+# library(tidyverse)
+# library(janeaustenr)
+# library(tidytext)
 
-## Don't worry about this part too much right now- makes code in readable format## # nolint
+# ## Don't worry about this part too much right now- makes code in readable format## # nolint
 
-original_books <- austen_books() %>%
-  group_by(book) %>%
-  mutate(linenumber = row_number(),
-         chapter = cumsum(str_detect(text, regex("^chapter [\\divxlc]",
-                                                 ignore_case = TRUE)))) %>%
-  ungroup()
+# original_books <- austen_books() %>%
+#   group_by(book) %>%
+#   mutate(linenumber = row_number(),
+#          chapter = cumsum(str_detect(text, regex("^chapter [\\divxlc]",
+#                                                  ignore_case = TRUE)))) %>%
+#   ungroup()
 
-tidy_books <- original_books %>%
-  tidytext::unnest_tokens(word, text)
+# tidy_books <- original_books %>%
+#   tidytext::unnest_tokens(word, text)
 
-## Notice the data format ##
+# ## Notice the data format ##
 
-tidy_books
+# tidy_books
 
- ## Count Up Most Common Words ##
+#  ## Count Up Most Common Words ##
 
- tidy_books %>%
-  dplyr::count(word, sort = TRUE)
+#  tidy_books %>%
+#   dplyr::count(word, sort = TRUE)
 
-## Anti_Join with stop_words df ##
+# ## Anti_Join with stop_words df ##
  
-data("stop_words")
-stop_words[1:5, 1]
+# data("stop_words")
+# stop_words[1:5, 1]
 
-tidy_books %>%
-  dplyr::anti_join(stop_words, by = "word") %>%
-  dplyr::count(word, sort = TRUE)
+# tidy_books %>%
+#   dplyr::anti_join(stop_words, by = "word") %>%
+#   dplyr::count(word, sort = TRUE)
